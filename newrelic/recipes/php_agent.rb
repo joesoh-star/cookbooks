@@ -35,7 +35,7 @@ execute 'newrelic-install' do
   end
   action :nothing
   if node['newrelic']['php_agent']['web_server']['service_name']
-    notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
+#Joe Debug    notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
   end
 end
 
