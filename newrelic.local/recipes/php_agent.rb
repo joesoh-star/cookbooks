@@ -7,7 +7,7 @@
 
 include_recipe 'newrelic::repository'
 
-license = node['newrelic']['application_monitoring']['license']
+license = NewRelic.application_monitoring_license(node)
 
 # the older version (3.0) had a bug in the init scripts that when it shut down the daemon
 # it would also kill dpkg as it was trying to upgrade let's remove the old package before continuing
@@ -35,7 +35,7 @@ execute 'newrelic-install' do
   end
   action :nothing
   if node['newrelic']['php_agent']['web_server']['service_name']
-#Joe Debug    notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
+    notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
   end
 end
 
@@ -101,7 +101,7 @@ template node['newrelic']['php_agent']['config_file'] do
     notifies :run, 'execute[newrelic-php5enmod]', :immediately
   end
   if node['newrelic']['php_agent']['web_server']['service_name']
-# Joe Debug    notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
+    notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
   end
 end
 
@@ -155,7 +155,7 @@ when 'external'
     action :create
     notifies :restart, 'service[newrelic-daemon]', :immediately
     if node['newrelic']['php_agent']['web_server']['service_name']
-# Joe Debug      notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
+      notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
     end
   end
 

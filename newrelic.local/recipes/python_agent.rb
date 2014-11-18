@@ -7,7 +7,7 @@
 
 include_recipe 'newrelic::repository'
 
-license = node['newrelic']['application_monitoring']['license']
+license = NewRelic.application_monitoring_license(node)
 
 python_pip 'newrelic' do
   if node['newrelic']['python_agent']['python_venv']
@@ -44,7 +44,8 @@ template node['newrelic']['python_agent']['config_file'] do
     :error_collector_enable => node['newrelic']['application_monitoring']['error_collector']['enable'],
     :error_collector_ignore_errors => node['newrelic']['application_monitoring']['error_collector']['ignore_errors'],
     :browser_monitoring_auto_instrument => node['newrelic']['application_monitoring']['browser_monitoring']['auto_instrument'],
-    :cross_application_tracer_enable => node['newrelic']['application_monitoring']['cross_application_tracer']['enable']
+    :cross_application_tracer_enable => node['newrelic']['application_monitoring']['cross_application_tracer']['enable'],
+    :feature_flag => node['newrelic']['python_agent']['feature_flag']
   )
   action :create
 end
