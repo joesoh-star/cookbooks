@@ -12,26 +12,10 @@ def whyrun_supported?
 end
 
 action :notify do
-  # @todo take out deprecated api_key logic
-  unless new_resource.api_key.nil?
-    Chef::Log.warn "The 'api_key'-attribute has been deprecated. Please make use of the key and key_type attributes instead."
-    new_resource.key = new_resource.api_key
-  end
-
-  if new_resource.key.nil?
-    Chef::Log.fatal "The #{key_type} is required to notify New Relic of a deployment."
-  end
-
-  if new_resource.url && (new_resource.app_name || new_resource.app_id)
+  if new_resource.url && new_resource.api_key && (new_resource.app_name || new_resource.app_id)
     Chef::Log.debug 'notify New Relic of deployment'
 
     data = Array.new
-
-    if new_resource.key_type == 'license_key'
-      data << '"x-license-key:' + new_resource.key + '"'
-    else
-      data << '"x-api-key:' + new_resource.key + '"'
-    end
 
     unless new_resource.app_name.nil?
       data << '-d "deployment[app_name]=' + new_resource.app_name + '"'
@@ -57,7 +41,7 @@ action :notify do
       data << '-d "deployment[user]=' + new_resource.user + '"'
     end
 
-    command_curl = "curl -H #{data.join(' ')} #{new_resource.url}"
+    command_curl = "curl -H 'x-api-key:#{new_resource.api_key}' #{data.join(' ')} #{new_resource.url}"
 
     Chef::Log.debug "curl command: #{command_curl}"
 
