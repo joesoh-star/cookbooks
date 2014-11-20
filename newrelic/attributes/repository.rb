@@ -6,4 +6,3 @@
 #
 
 default['newrelic']['repository']['repository_key'] = '548C16BF'
-default['newrelic']['repository']['repository_action'] = :install
