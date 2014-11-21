@@ -100,11 +100,6 @@ template node['newrelic']['php_agent']['config_file'] do
   if node['newrelic']['php_agent']['execute_php5enmod']
     notifies :run, 'execute[newrelic-php5enmod]', :immediately
   end
-  
-  file "/etc/php5/cli/conf.d/newrelic.ini" do
-    action :delete
-    only_if { File.exist?('/etc/php5/cli/conf.d/newrelic.ini') }
-  end
 
   if node['newrelic']['php_agent']['web_server']['service_name']
     notifies :restart, "service[#{node['newrelic']['php_agent']['web_server']['service_name']}]", :delayed
