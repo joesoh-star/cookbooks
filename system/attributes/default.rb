@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default['system']['timezone'] = ‘Kuala_Lumpur’
+default['system']['timezone'] = ‘Asia/Kuala_Lumpur’
 default['system']['short_hostname'] = node['hostname']
 default['system']['domain_name'] = 'localdomain'
 default['system']['static_hosts'] = {}
