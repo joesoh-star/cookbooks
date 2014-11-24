@@ -42,7 +42,7 @@ when 'rhel'
   default[:apache][:binary]        = '/usr/sbin/httpd'
   default[:apache][:icondir]       = '/var/www/icons/'
   default[:apache][:init_script]   = '/etc/init.d/httpd'
-  default[:apache][:version]       = ‘2.4’
+  default[:apache][:version]       = '2.4'
   default[:apache][:conf_available_dir]  = "#{node[:apache][:dir]}/conf.d"
   default[:apache][:conf_enabled_dir]    = "#{node[:apache][:dir]}/conf.d"
   default[:apache][:pid_file]      = '/var/run/httpd/httpd.pid'
