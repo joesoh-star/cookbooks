@@ -1,27 +1,11 @@
 case node[:platform]
     
     when "amazon"
-    node.set['mysql']['server']['packages'] = %w{mysql55w-server}
-    node.set['mysql']['client']['packages'] = %w{mysql55w}
 
     include_recipe "build-essential"
     include_recipe "apache2::default"
     include_recipe "apache2::mod_rewrite"
 
-    # add the webtatic repository
-    yum_repository "webtatic" do
-        repo_name "webtatic"
-        description "webtatic Stable repo"
-        url "http://repo.webtatic.com/yum/el6/x86_64/"
-        key "RPM-GPG-KEY-webtatic-andy"
-        action :add
-    end
-    
-    yum_key "RPM-GPG-KEY-webtatic-andy" do
-        url "http://repo.webtatic.com/yum/RPM-GPG-KEY-webtatic-andy"
-        action :add
-    end
-    
     
     # remove any existing php/mysql
     execute "yum remove -y php* mysql*"
@@ -30,7 +14,7 @@ case node[:platform]
     execute "yum -q makecache"
     
     # manually install php 5.5
-    execute "yum install -y php55w php55w-devel php55w-cli php55w-snmp php55w-soap php55w-xml php55w-xmlrpc php55w-process php55w-mysqlnd php55w-pecl-memcache php55w-opcache php55w-pdo php55w-imap php55w-mbstring php55w-intl"
+    execute "yum install -y php55 php55-devel php55-cli php55-snmp php55-soap php55-xml php55-xmlrpc php55-process php55-mysqlnd php55-pecl-memcache php55-opcache php55-pdo php55-imap php55-mbstring php55-intl"
 
   when "rhel", "fedora", "suse", "centos"
   # add the webtatic repository
@@ -47,9 +31,7 @@ case node[:platform]
     action :add
   end
   
-  node.set['php']['packages'] = ['php55w', 'php55w-devel', 'php55w-cli', 'php55w-snmp', 'php55w-soap', 'php55w-xml', 'php55w-xmlrpc', 'php55w-process', 'php55w-mysqlnd', 'php55w-pecl-memcache', 'php55w-opcache', 'php55w-pdo', 'php55w-imap', 'php55w-mbstring', 'php55w-intl']
-  node.set['mysql']['server']['packages'] = %w{mysql55w-server}
-  node.set['mysql']['client']['packages'] = %w{mysql55w}
+  node.set['php']['packages'] = ['php55', 'php55-devel', 'php55-cli', 'php55-snmp', 'php55-soap', 'php55-xml', 'php55-xmlrpc', 'php55-process', 'php55-mysqlnd', 'php55-pecl-memcache', 'php55-opcache', 'php55-pdo', 'php55-imap', 'php55-mbstring', 'php55-intl']
 
   include_recipe "build-essential"
   include_recipe "apache2::default"
